@@ -1,7 +1,9 @@
 <?php
 def_accessor('s4_bucket');
+def_accessor('s4_region', 'eu-west-1');
+
 def_memo('s4', function(){
-  return Aws\S3\S3Client::factory();
+  return Aws\S3\S3Client::factory(['region'=>s4_region()]);
 });
 
 def('s4_delete', function($key){
