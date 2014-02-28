@@ -3,11 +3,11 @@ def_accessor('s4_bucket');
 def_accessor('s4_region', 'eu-west-1');
 
 def_memo('s4', function(){
-  return Aws\S3\S3Client::factory(['region'=>s4_region()]);
+  return Aws\S3\S3Client::factory(array('region'=>s4_region()));
 });
 
 def('s4_delete', function($key){
-  return s4()->deleteObject(['Bucket'=>s4_bucket(), 'Key'=>$key]);
+  return s4()->deleteObject(array('Bucket'=>s4_bucket(), 'Key'=>$key));
 });
 
 def('s4_url', function($key){
@@ -15,11 +15,11 @@ def('s4_url', function($key){
 });
 
 def('s4_put', function($key, $body, $ct = null){
-  $t = [
+  $t = array(
     'Bucket'=>s4_bucket(),
     'Key' => $key,
     'Body' => $body
-    ];
+  );
   if(!is_null($ct))
     $t['ContentType']=$ct;
 
@@ -27,20 +27,20 @@ def('s4_put', function($key, $body, $ct = null){
 });
 
 def('s4_get', function($key){
-  $t = [
+  $t = array(
     'Bucket'=>s4_bucket(),
     'Key' => $key,
-    ];
+  );
   $t = s4()->getObject($t);
   return $t['Body'];
 });
 
 def('s4_put_file', function($key, $pth, $ct = null){
-  $t = [
+  $t = array(
     'Bucket'=>s4_bucket(),
     'Key' => $key,
     'SourceFile' => $pth
-    ];
+  );
   if(!is_null($ct))
     $t['ContentType']=$ct;
 
@@ -48,7 +48,7 @@ def('s4_put_file', function($key, $pth, $ct = null){
 });
 
 def('s4_list', function($prefix = null){
-  $t = [ 'Bucket'=>s4_bucket() ];
+  $t = array( 'Bucket'=>s4_bucket() );
   if(!is_null($prefix))
     $t['Prefix']=$prefix;
 
